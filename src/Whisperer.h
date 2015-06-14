@@ -1,5 +1,4 @@
-#ifndef WHISPERER_H
-#define WHISPERER_H
+#pragma once
 
 #include "Game.h"
 
@@ -26,5 +25,3 @@ class Whisperer : public Game
         void HandleInput(Game* game, Input& input);
         void Draw(Graphics& graphics);
 };
-
-#endif

@@ -3,6 +3,8 @@
 #include "Input.h"
 #include "Graphics.h"
 
+using namespace ascii;
+
 // Interface for game states which stop the flow of
 // chapter scripts until being processed.
 class State

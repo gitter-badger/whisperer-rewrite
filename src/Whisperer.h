@@ -21,7 +21,7 @@ class Whisperer : public Game
         }
     protected:
         void LoadContent(ImageCache* imageCache, SoundManager* soundManager);
-        void Update(Game* game, int deltaMS);
-        void HandleInput(Game* game, Input& input);
+        void Update(int deltaMS);
+        void HandleInput(Input& input);
         void Draw(Graphics& graphics);
 };

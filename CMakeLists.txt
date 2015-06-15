@@ -36,7 +36,7 @@ target_link_libraries(${PROJECT_NAME}
     ${SDL2TTF_LIBRARIES}
     )
 
-# Include source files
+# Include source files recursively
 file(GLOB Whisperer_src
     "src/*.h"
     "src/*.cpp"

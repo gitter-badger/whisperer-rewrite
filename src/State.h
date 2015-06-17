@@ -5,8 +5,10 @@
 
 using namespace ascii;
 
-// Interface for game states which stop the flow of
-// chapter scripts until being processed.
+// Interface for game states
+// Some states will contain other states. For example, a chapter state
+// will execute a Lua script while pausing to wait for states invoked
+// by the script to finish their execution.
 class State
 {
     public:

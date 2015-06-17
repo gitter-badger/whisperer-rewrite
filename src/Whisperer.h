@@ -2,6 +2,8 @@
 
 #include "Game.h"
 
+#include "TextManager.h"
+
 using namespace ascii;
 
 namespace
@@ -24,4 +26,6 @@ class Whisperer : public Game
         void Update(int deltaMS);
         void HandleInput(Input& input);
         void Draw(Graphics& graphics);
+    private:
+        TextManager textManager;
 };

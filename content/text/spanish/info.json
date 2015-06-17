@@ -1,5 +1,7 @@
 {
   'pack title': 'Spanish',
+  'language': 'Spanish',
   'author': 'Nathaniel Nelson',
-  'version': '1.0'
+  'version': '1.0',
+  'mode': 'lefttoright'
 }

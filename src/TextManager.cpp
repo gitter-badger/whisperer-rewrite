@@ -3,17 +3,20 @@
 #include <dirent.h>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include <algorithm>
+
+// TODO debug
+#include <iostream>
 
 using std::ifstream;
 using std::stringstream;
+using std::vector;
 
 namespace
 {
     const string TEXT_DIR("content/text");
     const string INFO_FILE("info.json");
-
-    // info file encoding
-    const string PACK_ENCODING("UTF-8");
 
     // info file elements
     const string TITLE_KEY("title");
@@ -23,16 +26,23 @@ namespace
     const string MODE_KEY("mode");
 
     // mode codes
-    const map<string, PrintMode> PRINT_MODES;
-    PRINT_MODES["lefttoright"] = LEFT_TO_RIGHT;
-    PRINT_MODES["rightoleft"] = RIGHT_TO_LEFT;
+    map<string, PrintMode> PRINT_MODES = {
+        { "lefttoright", LEFT_TO_RIGHT },
+        { "rightoleft", RIGHT_TO_LEFT }
+    };
+
+    // directories to ignore
+    vector<string> IGNORE_DIRECTORIES= {
+        ".",
+        ".."
+    };
 }
 
 TextManager::TextManager()
 {
     // Find the text folder and search every folder inside it for
     // a language pack
-    DIR* dir = opendir(TEXT_DIR);
+    DIR* dir = opendir(TEXT_DIR.c_str());
 
     struct dirent* entry = readdir(dir);
 
@@ -42,6 +52,13 @@ TextManager::TextManager()
         {
             // Found a pack folder
             string packDir = entry->d_name;
+            // Make sure it's not the current directory or parent directory
+            if (std::find(IGNORE_DIRECTORIES.begin(), IGNORE_DIRECTORIES.end(),
+                        packDir) != IGNORE_DIRECTORIES.end())
+            {
+                entry = readdir(dir);
+                continue;
+            }
             // Load the pack from info file
             LoadPack(TEXT_DIR + "/" + packDir + "/" + INFO_FILE, packDir);
         }
@@ -89,6 +106,8 @@ void TextManager::ClearText()
 
 void TextManager::LoadPack(string filename, string directory)
 {
+    std::cout << "Loading a pack " << directory << std::endl;
+
     // load the file
     stringstream buffer;
     {
@@ -101,27 +120,32 @@ void TextManager::LoadPack(string filename, string directory)
     Json::Value root;
     Json::Reader reader;
 
+    std::cout << buffer.str() << std::endl;
+
     bool success = reader.parse(buffer.str(), root, false);
 
     if (!success)
     {
+        std::cout << "An error occurred here" << std::endl;
+        std::cout << reader.getFormattedErrorMessages() << std::endl;
         // TODO handle the error gracefully
         return;
     }
 
     // parse out the pack info into a struct
-    string title(GetElement(root, TITLE_KEY);
+    string title(GetElement(root, TITLE_KEY));
+    std::cout << "Pack title:" << title << std::endl;
     this->languagePacks[title] = {
         title,
-        getElement(root, LANGUAGE_KEY),
-        getElement(root, AUTHOR_KEY),
-        getElement(root, VERSION_KEY),
-        PRINT_MODES[getElement(root, MODE_KEY)],
+        GetElement(root, LANGUAGE_KEY),
+        GetElement(root, AUTHOR_KEY),
+        GetElement(root, VERSION_KEY),
+        PRINT_MODES[GetElement(root, MODE_KEY)],
         directory
     };
 }
 
 string TextManager::GetElement(Json::Value root, string elementKey)
 {
-    return root.get(elementKey, PACK_ENCODING).asString();
+    return root[elementKey].asString();
 }

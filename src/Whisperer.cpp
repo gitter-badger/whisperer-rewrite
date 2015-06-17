@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 
+// TODO debug
+#include <iostream>
+
 #include "json.h"
 
 #include "Color.h"
@@ -12,8 +15,9 @@ using namespace ascii;
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {
-    textManager.SetPack("Official English Pack");
+    textManager.SetPack("Spanish");
     textManager.LoadFile("chapter1.json");
+    std::cout << textManager.GetText("p1") << std::endl;
 }
 
 void Whisperer::Update(int deltaMS)

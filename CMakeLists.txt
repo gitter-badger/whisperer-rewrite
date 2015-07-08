@@ -37,7 +37,7 @@ target_link_libraries(${PROJECT_NAME}
     )
 
 # Include source files recursively
-file(GLOB Whisperer_src
+file(GLOB_RECURSE Whisperer_src
     "src/*.h"
     "src/*.cpp"
     )

@@ -1,6 +1,5 @@
 #include "Whisperer.h"
 
-#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -12,6 +11,11 @@
 #include "Color.h"
 
 using namespace ascii;
+
+
+void Whisperer::RegisterScriptCommands()
+{
+}
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {

@@ -1,8 +1,12 @@
 #pragma once
 
+#include <vector> // TODO
+#include "Color.h" // TODO
+
 #include "Game.h"
 
 #include "TextManager.h"
+#include "ScriptManager.h"
 
 using namespace ascii;
 
@@ -20,12 +24,17 @@ class Whisperer : public Game
         Whisperer()
             : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight)
         {
+            RegisterScriptCommands();
         }
     protected:
+        // Virtual methods
         void LoadContent(ImageCache* imageCache, SoundManager* soundManager);
         void Update(int deltaMS);
         void HandleInput(Input& input);
         void Draw(Graphics& graphics);
     private:
+        void RegisterScriptCommands();
+
         TextManager textManager;
+        ScriptManager scriptManager;
 };

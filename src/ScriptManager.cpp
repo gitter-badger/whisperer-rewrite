@@ -1,5 +1,7 @@
 #include "ScriptManager.h"
 
+#include <iostream>
+
 #include <fstream>
 using std::ifstream;
 using std::getline;

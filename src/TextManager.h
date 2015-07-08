@@ -60,6 +60,8 @@ class TextManager
 
         // Helper--Gets an element as UTF-8 string
         string GetElement(Json::Value root, string elementKey);
+        // Helper--loads a file as a string
+        string ReadFile(string filename);
 
         // maps all available languages packs by title
         map<string, PackInfo> languagePacks;

@@ -72,21 +72,20 @@ TextManager::TextManager()
 void TextManager::LoadFile(string filename)
 {
     // load the file
-    stringstream buffer;
-    {
-        ifstream file(TEXT_DIR + "/" + CurrentPack().directory + "/" + filename);
-        buffer << file.rdbuf();
-        file.close();
-    }
+    filename = TEXT_DIR + "/" + CurrentPack().directory + "/" + filename;
+    string fileJson = this->ReadFile(filename);
 
     // Parse the text file as JSON
     Json::Value root;
     Json::Reader reader;
 
-    bool success = reader.parse(buffer.str(), root, false);
+    bool success = reader.parse(fileJson, root, false);
 
     if (!success)
     {
+        std::cout << "Error: failed to load text file " << filename << std::endl;
+        std::cout << reader.getFormattedErrorMessages() << std::endl;
+        //
         // TODO handle error gracefully
         return;
     }
@@ -106,27 +105,20 @@ void TextManager::ClearText()
 
 void TextManager::LoadPack(string filename, string directory)
 {
-    std::cout << "Loading a pack " << directory << std::endl;
-
     // load the file
-    stringstream buffer;
-    {
-        ifstream file(filename);
-        buffer << file.rdbuf();
-        file.close();
-    }
+    string packJson = this->ReadFile(filename);
 
     // Parse the information file as JSON
     Json::Value root;
     Json::Reader reader;
 
-    std::cout << buffer.str() << std::endl;
-
-    bool success = reader.parse(buffer.str(), root, false);
+    bool success = reader.parse(packJson, root, false);
 
     if (!success)
     {
-        std::cout << "An error occurred here" << std::endl;
+        std::cout << "Error: failed to parse language pack file "
+            << directory << std::endl;
+
         std::cout << reader.getFormattedErrorMessages() << std::endl;
         // TODO handle the error gracefully
         return;
@@ -134,7 +126,6 @@ void TextManager::LoadPack(string filename, string directory)
 
     // parse out the pack info into a struct
     string title(GetElement(root, TITLE_KEY));
-    std::cout << "Pack title:" << title << std::endl;
     this->languagePacks[title] = {
         title,
         GetElement(root, LANGUAGE_KEY),
@@ -148,4 +139,15 @@ void TextManager::LoadPack(string filename, string directory)
 string TextManager::GetElement(Json::Value root, string elementKey)
 {
     return root[elementKey].asString();
+}
+
+string TextManager::ReadFile(string filename)
+{
+    stringstream buffer;
+
+    ifstream file(filename);
+    buffer << file.rdbuf();
+    file.close();
+
+    return buffer.str();
 }

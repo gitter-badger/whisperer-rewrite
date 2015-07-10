@@ -3,8 +3,6 @@
 #include <fstream>
 #include <sstream>
 
-#include "json.h"
-
 #include "Color.h"
 
 #include "commands/graphics.h"

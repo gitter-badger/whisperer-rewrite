@@ -1,0 +1,6 @@
+Clear
+ClearImages
+
+AddForegroundImage body 0 0
+
+UpdateScreen

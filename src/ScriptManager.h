@@ -33,6 +33,9 @@ class ScriptManager
 
         // Processes the next script command in the execution buffer.
         void ProcessNextCommand(Whisperer* game);
+
+        // Whether there are any commands remaining in the execution buffer
+        bool HasNextCommand() { return !commands.empty(); }
     private:
         map<string, CommandFunction> commandFunctions;
         deque<string> commands;

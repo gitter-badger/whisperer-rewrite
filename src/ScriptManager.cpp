@@ -75,7 +75,6 @@ void ScriptManager::ProcessNextCommand(Whisperer* game)
     string nextArg;
     while (commandStream >> nextArg)
     {
-        std::cout << "Doing this " << std::endl;
         commandArgs.push_back(nextArg);
     }
 

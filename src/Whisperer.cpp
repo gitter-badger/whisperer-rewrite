@@ -16,6 +16,10 @@ void Whisperer::RegisterScriptCommands()
     scriptManager.RegisterCommand("LoadSurface", &LoadSurface);
     scriptManager.RegisterCommand("FreeSurface", &FreeSurface);
     scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
+    scriptManager.RegisterCommand("LoadImage", &LoadImage);
+    scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
+    scriptManager.RegisterCommand("UpdateScreen", &UpdateScreen);
+    scriptManager.RegisterCommand("ClearImages", &ClearImages);
 }
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
@@ -23,13 +27,15 @@ void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
     textManager.SetPack("Spanish");
     textManager.LoadFile("chapter1.json");
 
-    scriptManager.RunCommand("LoadSurface journal content/journal.srf");
-    scriptManager.ProcessNextCommand(this);
+    scriptManager.RunScript("content/scripts/load.wsp");
 }
 
 void Whisperer::Update(int deltaMS)
 {
-
+    while (scriptManager.HasNextCommand())
+    {
+        scriptManager.ProcessNextCommand(this);
+    }
 }
 
 void Whisperer::HandleInput(Input& input)
@@ -38,11 +44,5 @@ void Whisperer::HandleInput(Input& input)
 
 void Whisperer::Draw(Graphics& graphics)
 {
-    scriptManager.RunCommand("Clear");
-    scriptManager.ProcessNextCommand(this);
-
-    scriptManager.RunCommand("BlitSurface journal 0 0");
-    scriptManager.ProcessNextCommand(this);
-
-    graphics.update();
+    scriptManager.RunScript("content/scripts/draw.wsp");
 }

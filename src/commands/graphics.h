@@ -46,7 +46,7 @@ void ClearOpaque(Whisperer* game, vector<string> args)
 
 // UPDATE
 
-void Update(Whisperer* game, vector<string> args)
+void UpdateScreen(Whisperer* game, vector<string> args)
 {
     game->graphics()->update();
 }

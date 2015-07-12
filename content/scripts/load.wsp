@@ -1,3 +1,2 @@
 LoadImage body content/images/bodyphoto-scaled.png
 LoadSurface journal content/journal.srf
-PrintSurfaceContents journal

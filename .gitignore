@@ -26,3 +26,5 @@ gen/
 
 # Vim files
 *.swp
+
+core

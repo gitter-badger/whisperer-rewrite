@@ -1,6 +1,5 @@
 Clear
-ClearImages
 
-AddForegroundImage body 0 0
+BlitSurface journal 0 0
 
 UpdateScreen

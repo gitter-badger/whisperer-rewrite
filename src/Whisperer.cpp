@@ -15,6 +15,7 @@ void Whisperer::RegisterScriptCommands()
     scriptManager.RegisterCommand("Clear", &Clear);
     scriptManager.RegisterCommand("LoadSurface", &LoadSurface);
     scriptManager.RegisterCommand("FreeSurface", &FreeSurface);
+    scriptManager.RegisterCommand("PrintSurfaceContents", &PrintSurfaceContents);
     scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
     scriptManager.RegisterCommand("LoadImage", &LoadImage);
     scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);

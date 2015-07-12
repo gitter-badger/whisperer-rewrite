@@ -2,6 +2,7 @@
 
 // TODO debug
 #include <iostream>
+using std::cout;
 
 #include <vector>
 using std::vector;
@@ -77,6 +78,15 @@ void FreeSurface(Whisperer* game, vector<string> args)
 
     delete surfaces[key];
     surfaces.erase(key);
+}
+
+// Prints the characters in an ASCIILib surface.
+void PrintSurfaceContents(Whisperer* game, vector<string> args)
+{
+    // Syntax: PrintSurfaceContents [identifier]
+    string key = args.at(0);
+
+    surfaces[key]->printContents();
 }
 
 // Blits a loaded ASCIILib surface to the screen (ignoring transparent parts)

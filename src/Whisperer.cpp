@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 
+#include <SDL.h>
+
 #include "Color.h"
 
 #include "commands/graphics.h"
@@ -41,13 +43,51 @@ void Whisperer::Update(int deltaMS)
 
 void Whisperer::HandleInput(Input& input)
 {
+    bool fullscreen = false;
+    if (input.isKeyHeld(SDLK_SPACE))
+    {
+        fullscreen = true;
+    }
+
+    if (input.wasKeyPressed(SDLK_a))
+    {
+        graphics()->SetVideoMode(1.0f, fullscreen);
+        scriptManager.RunScript("content/scripts/load.wsp");
+    }
+    if (input.wasKeyPressed(SDLK_b))
+    {
+        graphics()->SetVideoMode(1.5f, fullscreen);
+        scriptManager.RunScript("content/scripts/load.wsp");
+    }
+    if (input.wasKeyPressed(SDLK_c))
+    {
+        graphics()->SetVideoMode(2.0f, fullscreen);
+        scriptManager.RunScript("content/scripts/load.wsp");
+    }
+
+    mouseX = graphics()->pixelToCellX(input.mouseX());
+    mouseY = graphics()->pixelToCellY(input.mouseY());
+
+    if (input.wasKeyPressed(SDLK_ESCAPE))
+    {
+        Quit();
+    }
 }
 
 void Whisperer::Draw(Graphics& graphics)
 {
-    //scriptManager.RunScript("content/scripts/draw.wsp");
     graphics.clear();
 
     graphics.blitString(textManager.GetText("herald-title").c_str(), Color::White, 5, 5);
+
+    std::stringstream sstream;
+
+    sstream << "x: " << mouseX << " y: " << mouseY;
+
+    graphics.blitString(sstream.str().c_str(), Color::White, 0, 0);
+    graphics.setBackgroundColor(mouseX, mouseY, Color::Green);
+    
+
     graphics.update();
+    scriptManager.RunScript("content/scripts/draw.wsp");
 }

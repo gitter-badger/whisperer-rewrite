@@ -22,7 +22,7 @@ class Whisperer : public Game
 {
     public:
         Whisperer()
-            : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight)
+            : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight), mouseX(0), mouseY(0)
         {
             RegisterScriptCommands();
         }
@@ -34,6 +34,8 @@ class Whisperer : public Game
         void Draw(Graphics& graphics);
     private:
         void RegisterScriptCommands();
+
+        int mouseX, mouseY;
 
         TextManager textManager;
         ScriptManager scriptManager;

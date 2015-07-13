@@ -44,7 +44,7 @@ class TextManager
         PackInfo CurrentPack() { return languagePacks[currentPack]; }
 
         // Retrieve a string of text from a loaded text file
-        string GetText(string key) { return text[key]; }
+        string GetText(string key);
 
         // ^GETTERS
 

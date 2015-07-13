@@ -1,9 +1,5 @@
 #pragma once
 
-// TODO debug
-#include <iostream>
-using std::cout;
-
 #include <vector>
 using std::vector;
 #include <string>
@@ -64,9 +60,7 @@ void LoadSurface(Whisperer* game, vector<string> args)
     // Make sure the identifier isn't in use yet
     if (!surfaces[key])
     {
-        std::cout << "Loading a surface" << std::endl;
         surfaces[key] = Surface::FromFile(path.c_str());
-        std::cout << "done Loading a surface" << std::endl;
     }
 }
 

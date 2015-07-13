@@ -25,7 +25,7 @@ void Whisperer::RegisterScriptCommands()
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {
-    textManager.SetPack("Spanish");
+    textManager.SetPack("Official English Pack");
     textManager.LoadFile("chapter1.json");
 
     scriptManager.RunScript("content/scripts/load.wsp");
@@ -45,5 +45,9 @@ void Whisperer::HandleInput(Input& input)
 
 void Whisperer::Draw(Graphics& graphics)
 {
-    scriptManager.RunScript("content/scripts/draw.wsp");
+    //scriptManager.RunScript("content/scripts/draw.wsp");
+    graphics.clear();
+
+    graphics.blitString(textManager.GetText("herald-title").c_str(), Color::White, 5, 5);
+    graphics.update();
 }

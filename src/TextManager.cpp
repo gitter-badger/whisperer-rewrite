@@ -2,16 +2,18 @@
 
 #include <dirent.h>
 #include <fstream>
+using std::ifstream;
 #include <sstream>
+using std::stringstream;
 #include <vector>
+using std::vector;
+
 #include <algorithm>
 
 // TODO debug
 #include <iostream>
-
-using std::ifstream;
-using std::stringstream;
-using std::vector;
+using std::cout;
+using std::endl;
 
 namespace
 {
@@ -69,6 +71,17 @@ TextManager::TextManager()
     closedir(dir);
 }
 
+string TextManager::GetText(string key)
+{
+    if (text.find(key) == text.end())
+    {
+        cout << "Error: tried to retrieve nonexistent paragraph " << key << endl;
+        // TODO handle the error gracefully
+    }
+
+    return text[key];
+}
+
 void TextManager::LoadFile(string filename)
 {
     // load the file
@@ -85,7 +98,7 @@ void TextManager::LoadFile(string filename)
     {
         std::cout << "Error: failed to load text file " << filename << std::endl;
         std::cout << reader.getFormattedErrorMessages() << std::endl;
-        //
+
         // TODO handle error gracefully
         return;
     }

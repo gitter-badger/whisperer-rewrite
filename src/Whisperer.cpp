@@ -21,6 +21,7 @@ void Whisperer::RegisterScriptCommands()
     scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
     scriptManager.RegisterCommand("LoadImage", &LoadImage);
     scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
+    scriptManager.RegisterCommand("AddBackgroundImage", &AddBackgroundImage);
     scriptManager.RegisterCommand("UpdateScreen", &UpdateScreen);
     scriptManager.RegisterCommand("ClearImages", &ClearImages);
 }
@@ -77,7 +78,13 @@ void Whisperer::HandleInput(Input& input)
 void Whisperer::Draw(Graphics& graphics)
 {
     graphics.clear();
+    graphics.clearTransparent();
+    scriptManager.RunScript("content/scripts/draw.wsp");
 
+    for (int x = 0; x < 75; ++x)
+    {
+        graphics.setCellOpacity(5+x, 5, true);
+    }
     graphics.blitString(textManager.GetText("herald-title").c_str(), Color::White, 5, 5);
 
     std::stringstream sstream;
@@ -89,5 +96,4 @@ void Whisperer::Draw(Graphics& graphics)
     
 
     graphics.update();
-    scriptManager.RunScript("content/scripts/draw.wsp");
 }

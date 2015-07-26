@@ -1,5 +1,5 @@
 ClearImages
 
-AddForegroundImage body 0 0
+AddBackgroundImage body 0 0
 
 UpdateScreen

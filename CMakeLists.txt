@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME "Whisperer")
 set(SRC_DIR src)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Whisperer_SOURCE_DIR}/cmake")
 set(CMAKE_CXX_FLAGS "-std=c++11")
 
 project(${PROJECT_NAME})
@@ -14,6 +13,9 @@ add_executable(${PROJECT_NAME} ${SRC_DIR}/main.cpp)
 add_subdirectory(ASCIILib)
 include_directories(ASCIILib/ASCIILib)
 target_link_libraries(${PROJECT_NAME} ASCIILib)
+
+# Then find SDL
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Whisperer_SOURCE_DIR}/cmake")
 
 # Include SDL2
 find_package(SDL2 REQUIRED)

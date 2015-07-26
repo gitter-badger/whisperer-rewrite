@@ -37,18 +37,25 @@ fi
 
 # Generate the build system with CMake using
 # the desired build configuration
-cd $CMAKE_DIR
-cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ./
 
 # Build the game
 make
 
+# Then move all CMake-generated files into the proper place
+#mv Makefile $CMAKE_DIR
+#mv cmake_install.cmake $CMAKE_DIR
+#mv CMakeCache.txt $CMAKE_DIR
+#cp -R CMakeFiles $CMAKE_DIR
+#rm -r CMakeFiles
+
 # Move the executable into the binary directory
-mv $EXECUTABLE ../$BIN_DIR
+mv $EXECUTABLE $BIN_DIR
+mv libsource.a $BIN_DIR
+
 # Copy the game assets into the binary directory
 # if they aren't already there
-cd ..
-cp -ru $CONTENT_DIR $BIN_DIR
+cp -R $CONTENT_DIR $BIN_DIR
 
 # If this is a release build, make a zip file
 if [ "$BUILD_TYPE" == "Release" ]; then

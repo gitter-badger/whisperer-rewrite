@@ -28,3 +28,4 @@ gen/
 *.swp
 
 core
+build

@@ -5,95 +5,95 @@
 
 #include <SDL.h>
 
-#include "Color.h"
-
-#include "commands/graphics.h"
+#include "menus/LanguageMenu.h"
 
 using namespace ascii;
 
 
-void Whisperer::RegisterScriptCommands()
-{
-    scriptManager.RegisterCommand("Clear", &Clear);
-    scriptManager.RegisterCommand("LoadSurface", &LoadSurface);
-    scriptManager.RegisterCommand("FreeSurface", &FreeSurface);
-    scriptManager.RegisterCommand("PrintSurfaceContents", &PrintSurfaceContents);
-    scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
-    scriptManager.RegisterCommand("LoadImage", &LoadImage);
-    scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
-    scriptManager.RegisterCommand("AddBackgroundImage", &AddBackgroundImage);
-    scriptManager.RegisterCommand("UpdateScreen", &UpdateScreen);
-    scriptManager.RegisterCommand("ClearImages", &ClearImages);
-}
+//void Whisperer::RegisterScriptCommands()
+//{
+    //// graphics.h
+    //scriptManager.RegisterCommand("Clear", &Clear);
+    //scriptManager.RegisterCommand("ClearTransparent", &ClearTransparent);
+    //scriptManager.RegisterCommand("ClearOpaque", &ClearOpaque);
+
+    //scriptManager.RegisterCommand("UpdateScreen", &UpdateScreen);
+
+    //scriptManager.RegisterCommand("LoadSurface", &LoadSurface);
+    //scriptManager.RegisterCommand("FreeSurface", &FreeSurface);
+    //scriptManager.RegisterCommand("PrintSurfaceContents", &PrintSurfaceContents);
+    //scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
+    //scriptManager.RegisterCommand("CopySurface", &CopySurface);
+
+    //scriptManager.RegisterCommand("LoadImage", &LoadImage);
+    //scriptManager.RegisterCommand("FreeImage", &FreeImage);
+    //scriptManager.RegisterCommand("AddBackgroundImage", &AddBackgroundImage);
+    //scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
+    //scriptManager.RegisterCommand("ClearImages", &ClearImages);
+//}
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {
-    textManager.SetPack("Official English Pack");
-    textManager.LoadFile("chapter1.json");
-
-    scriptManager.RunScript("content/scripts/load.wsp");
+    mCurrentState = new LanguageMenu(&mTextManager);
 }
 
 void Whisperer::Update(int deltaMS)
 {
-    while (scriptManager.HasNextCommand())
+    // Update the current menu
+    if (mCurrentState != NULL)
     {
-        scriptManager.ProcessNextCommand(this);
+        mCurrentState->Update(deltaMS);
+
+        // If the current menu is finished, delete it and start the next one
+        if (mCurrentState->IsFinished())
+        {
+            State* newState = mCurrentState->NextState();
+            delete mCurrentState;
+            mCurrentState = newState;
+        }
+    }
+    // now check again in case the state is set to null above
+    if (mCurrentState == NULL)
+    {
+        // If there is no current menu, quit the game.
+        Quit();
     }
 }
 
 void Whisperer::HandleInput(Input& input)
 {
-    bool fullscreen = false;
-    if (input.isKeyHeld(SDLK_SPACE))
+    if (mCurrentState != NULL)
     {
-        fullscreen = true;
+        mCurrentState->HandleInput(input);
     }
 
-    if (input.wasKeyPressed(SDLK_a))
-    {
-        graphics()->SetVideoMode(1.0f, fullscreen);
-        scriptManager.RunScript("content/scripts/load.wsp");
-    }
-    if (input.wasKeyPressed(SDLK_b))
-    {
-        graphics()->SetVideoMode(1.5f, fullscreen);
-        scriptManager.RunScript("content/scripts/load.wsp");
-    }
-    if (input.wasKeyPressed(SDLK_c))
-    {
-        graphics()->SetVideoMode(2.0f, fullscreen);
-        scriptManager.RunScript("content/scripts/load.wsp");
-    }
+    //bool fullscreen = false;
+    //if (input.isKeyHeld(SDLK_SPACE))
+    //{
+        //fullscreen = true;
+    //}
 
-    mouseX = graphics()->pixelToCellX(input.mouseX());
-    mouseY = graphics()->pixelToCellY(input.mouseY());
-
-    if (input.wasKeyPressed(SDLK_ESCAPE))
-    {
-        Quit();
-    }
+    //if (input.wasKeyPressed(SDLK_a))
+    //{
+        //graphics()->SetVideoMode(1.0f, fullscreen);
+        //scriptManager.RunScript("content/scripts/load.wsp");
+    //}
+    //if (input.wasKeyPressed(SDLK_b))
+    //{
+        //graphics()->SetVideoMode(1.5f, fullscreen);
+        //scriptManager.RunScript("content/scripts/load.wsp");
+    //}
+    //if (input.wasKeyPressed(SDLK_c))
+    //{
+        //graphics()->SetVideoMode(2.0f, fullscreen);
+        //scriptManager.RunScript("content/scripts/load.wsp");
+    //}
 }
 
 void Whisperer::Draw(Graphics& graphics)
 {
-    graphics.clear();
-    graphics.clearTransparent();
-    scriptManager.RunScript("content/scripts/draw.wsp");
-
-    for (int x = 0; x < 75; ++x)
+    if (mCurrentState != NULL)
     {
-        graphics.setCellOpacity(5+x, 5, true);
+        mCurrentState->Draw(graphics);
     }
-    graphics.blitString(textManager.GetText("herald-title").c_str(), Color::White, 5, 5);
-
-    std::stringstream sstream;
-
-    sstream << "x: " << mouseX << " y: " << mouseY;
-
-    graphics.blitString(sstream.str().c_str(), Color::White, 0, 0);
-    graphics.setBackgroundColor(mouseX, mouseY, Color::Green);
-    
-
-    graphics.update();
 }

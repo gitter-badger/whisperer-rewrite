@@ -1,12 +1,11 @@
 #pragma once
 
-#include <vector> // TODO
-#include "Color.h" // TODO
-
 #include "Game.h"
 
 #include "TextManager.h"
 #include "ScriptManager.h"
+
+#include "State.h"
 
 using namespace ascii;
 
@@ -22,10 +21,11 @@ class Whisperer : public Game
 {
     public:
         Whisperer()
-            : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight), mouseX(0), mouseY(0)
+            : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight)
         {
-            RegisterScriptCommands();
         }
+
+        TextManager* textManager() { return &mTextManager; }
     protected:
         // Virtual methods
         void LoadContent(ImageCache* imageCache, SoundManager* soundManager);
@@ -35,8 +35,7 @@ class Whisperer : public Game
     private:
         void RegisterScriptCommands();
 
-        int mouseX, mouseY;
+        TextManager mTextManager;
 
-        TextManager textManager;
-        ScriptManager scriptManager;
+        State* mCurrentState;
 };

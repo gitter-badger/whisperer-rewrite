@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(CMAKE_CXX_FLAGS "-std=c++11")
-
 set(PROJECT_NAME "Whisperer")
 set(SRC_DIR src)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${Whisperer_SOURCE_DIR}/cmake")
+set(CMAKE_CXX_FLAGS "-std=c++11")
 
 project(${PROJECT_NAME})
 
@@ -16,18 +16,16 @@ include_directories(ASCIILib/ASCIILib)
 target_link_libraries(${PROJECT_NAME} ASCIILib)
 
 # Include SDL2
-include(FindPkgConfig)
-
-pkg_search_module(SDL2 REQUIRED sdl2)
-pkg_search_module(SDL2MIXER REQUIRED SDL2_mixer>=2.0.0)
-pkg_search_module(SDL2IMAGE REQUIRED SDL2_image>=2.0.0)
-pkg_search_module(SDL2TTF REQUIRED SDL2_ttf>=2.0.0)
+find_package(SDL2 REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
 
 include_directories(
-    ${SDL2_INCLUDE_DIRS}
-    ${SDL2MIXER_INCLUDE_DIRS}
-    ${SDL2IMAGE_INCLUDE_DIRS}
-    ${SDL2TTF_INCLUDE_DIRS}
+    ${SDL2_INCLUDE_DIR}
+    ${SDL2MIXER_INCLUDE_DIR}
+    ${SDL2IMAGE_INCLUDE_DIR}
+    ${SDL2TTF_INCLUDE_DIR}
     )
 target_link_libraries(${PROJECT_NAME}
     ${SDL2_LIBRARIES}
@@ -38,8 +36,8 @@ target_link_libraries(${PROJECT_NAME}
 
 # Include source files recursively
 file(GLOB_RECURSE Whisperer_src
-    "src/*.h"
-    "src/*.cpp"
+    "${SRC_DIR}/*.h"
+    "${SRC_DIR}/*.cpp"
     )
 
 add_library(source ${Whisperer_src})

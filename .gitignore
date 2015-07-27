@@ -27,5 +27,16 @@ gen/
 # Vim files
 *.swp
 
+# GDB
 core
+
+# platform-specific scripts
 build
+clean
+
+# generated files when misplaced
+.DS_Store
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake

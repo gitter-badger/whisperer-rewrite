@@ -47,7 +47,7 @@ void Whisperer::Update(int deltaMS)
         // If the current menu is finished, delete it and start the next one
         if (mCurrentState->IsFinished())
         {
-            State* newState = mCurrentState->NextState();
+            State* newState = mCurrentState->NextState(this);
             delete mCurrentState;
             mCurrentState = newState;
         }

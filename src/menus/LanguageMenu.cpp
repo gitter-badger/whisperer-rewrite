@@ -2,16 +2,18 @@
 
 #include <map>
 
+#include "MainMenu.h"
+
 
 LanguageMenu::LanguageMenu(TextManager* textManager)
-    : mTextManager(textManager)
+    : mTextManager(textManager), finished(false)
 {
     map<string, PackInfo> packs = mTextManager->LanguagePacks();
 
     int y = 3;
     for (auto it = packs.begin(); it != packs.end(); ++it)
     {
-        buttons.push_back(Button(it->second.language, 5, y++));
+        buttons.push_back(Button(it->second.title, 5, y++));
     }
 }
 
@@ -21,7 +23,8 @@ void LanguageMenu::Update(int deltaMS)
     {
         if (it->IsPressed())
         {
-            // TODO Set the game to the button's language!
+            finished = true;
+            mTextManager->SetPack(it->text());
         }
     }
 }
@@ -50,10 +53,10 @@ void LanguageMenu::Draw(Graphics& graphics)
 
 bool LanguageMenu::IsFinished()
 {
-    return false; // TODO
+    return finished;
 }
 
-State* LanguageMenu::NextState()
+State* LanguageMenu::NextState(Whisperer* whisperer)
 {
-    return NULL; // TODO
+    return new MainMenu(mTextManager);
 }

@@ -5,6 +5,8 @@
 
 using namespace ascii;
 
+class Whisperer;
+
 // Interface for game states
 // Some states will contain other states. For example, a chapter state
 // will execute a script while pausing to wait for states invoked
@@ -20,5 +22,5 @@ class State
         // Called by the game to monitor whether the state
         // has been fully processed
         virtual bool IsFinished()=0;
-        virtual State* NextState()=0;
+        virtual State* NextState(Whisperer* whisperer)=0;
 };

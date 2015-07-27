@@ -1,7 +1,7 @@
 #include "Button.h"
 
 Button::Button(string text, int cellX, int cellY)
-    : text(text), cellX(cellX), cellY(cellY),
+    : mText(text), cellX(cellX), cellY(cellY),
     textColor(Color::White), textColorSelected(Color::Yellow),
     backgroundColor(Color::Black), backgroundColorSelected(Color::Black),
     mouseX(0), mouseY(0), pressed(false), mousePressed(false)
@@ -24,7 +24,7 @@ void Button::Draw(Graphics& graphics)
     const int cellMouseY = graphics.pixelToCellY(mouseY);
 
     int left = cellX;
-    int right = cellX + text.size();
+    int right = cellX + mText.size();
 
     // Then check if this button is selected by the cursor
     const bool selected = cellMouseY == cellY && cellMouseX >= left
@@ -41,7 +41,7 @@ void Button::Draw(Graphics& graphics)
     }
 
     // Then draw the button text
-    graphics.blitString(text.c_str(), textCol, cellX, cellY);
+    graphics.blitString(mText.c_str(), textCol, cellX, cellY);
 
     // If the button has been pressed, set a flag so the containing menu
     // can handle the event

@@ -1,11 +1,18 @@
 #include "LanguageMenu.h"
 
+#include <map>
+
+
 LanguageMenu::LanguageMenu(TextManager* textManager)
-    : textManager(textManager)
+    : mTextManager(textManager)
 {
-    buttons.push_back(Button("Test 1", 5, 3));
-    buttons.push_back(Button("Test 2", 5, 4));
-    buttons.push_back(Button("Test 3", 5, 5));
+    map<string, PackInfo> packs = mTextManager->LanguagePacks();
+
+    int y = 3;
+    for (auto it = packs.begin(); it != packs.end(); ++it)
+    {
+        buttons.push_back(Button(it->second.language, 5, y++));
+    }
 }
 
 void LanguageMenu::Update(int deltaMS)

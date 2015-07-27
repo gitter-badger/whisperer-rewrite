@@ -25,7 +25,7 @@ class LanguageMenu : public State
         bool IsFinished();
         State* NextState();
     private:
-        TextManager* textManager;
+        TextManager* mTextManager;
 
         vector<Button> buttons;
 };

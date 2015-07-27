@@ -13,7 +13,9 @@ class Button
     public:
         Button(string text, int cellX, int cellY);
 
+        string text() { return mText; }
         bool IsPressed() { return pressed; }
+
         void HandleInput(Input& input);
         void Draw(Graphics& graphics);
 
@@ -23,7 +25,7 @@ class Button
         Color backgroundColor;
         Color backgroundColorSelected;
     private:
-        string text;
+        string mText;
         int cellX, cellY;
         int mouseX, mouseY;
         bool pressed;

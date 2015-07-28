@@ -88,6 +88,6 @@ void ScriptManager::ProcessNextCommand(Whisperer* game)
         return;
     }
 
-    // Actually call the function
-    function(game, commandArgs);
+    // Actually call the function and return the State is creates
+    return function(game, commandArgs);
 }

@@ -11,6 +11,10 @@ using std::map;
 #include "Surface.h"
 using ascii::Surface;
 
+class State;
+
+
+// Global fields
 namespace
 {
     map<string, Surface*> surfaces;
@@ -26,32 +30,36 @@ int coord(string arg)
 
 // CLEAR FUNCTIONS
 
-void Clear(Whisperer* game, vector<string> args)
+State* Clear(Whisperer* game, vector<string> args)
 {
     game->graphics()->clear();
+    return NULL;
 }
 
-void ClearTransparent(Whisperer* game, vector<string> args)
+State* ClearTransparent(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearTransparent();
+    return NULL;
 }
 
-void ClearOpaque(Whisperer* game, vector<string> args)
+State* ClearOpaque(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearOpaque();
+    return NULL;
 }
 
 // UPDATE
 
-void UpdateScreen(Whisperer* game, vector<string> args)
+State* UpdateScreen(Whisperer* game, vector<string> args)
 {
     game->graphics()->update();
+    return NULL;
 }
 
 // SURFACES
 
 // Loads a ASCIILib surface and stores it by the given identifier
-void LoadSurface(Whisperer* game, vector<string> args)
+State* LoadSurface(Whisperer* game, vector<string> args)
 {
     // Syntax: LoadSurface [identifier] [filename]
     string key = args.at(0);
@@ -62,29 +70,35 @@ void LoadSurface(Whisperer* game, vector<string> args)
     {
         surfaces[key] = Surface::FromFile(path.c_str());
     }
+
+    return NULL;
 }
 
 // Frees an ASCIILib surface from memory
-void FreeSurface(Whisperer* game, vector<string> args)
+State* FreeSurface(Whisperer* game, vector<string> args)
 {
     // Syntax: FreeSurface [identifier]
     string key = args.at(0);
 
     delete surfaces[key];
     surfaces.erase(key);
+
+    return NULL;
 }
 
 // Prints the characters in an ASCIILib surface.
-void PrintSurfaceContents(Whisperer* game, vector<string> args)
+State* PrintSurfaceContents(Whisperer* game, vector<string> args)
 {
     // Syntax: PrintSurfaceContents [identifier]
     string key = args.at(0);
 
     surfaces[key]->printContents();
+
+    return NULL;
 }
 
 // Blits a loaded ASCIILib surface to the screen (ignoring transparent parts)
-void BlitSurface(Whisperer* game, vector<string> args)
+State* BlitSurface(Whisperer* game, vector<string> args)
 {
     // Syntax: BlitSurface [identifier] [x] [y]
     string key = args.at(0);
@@ -92,10 +106,12 @@ void BlitSurface(Whisperer* game, vector<string> args)
     int y = coord(args.at(2));
 
     game->graphics()->blitSurface(surfaces[key], x, y);
+
+    return NULL;
 }
 
 // Copies a loaded ASCIILib surface to the screen (preserving transparency)
-void CopySurface(Whisperer* game, vector<string> args)
+State* CopySurface(Whisperer* game, vector<string> args)
 {
     // Syntax: CopySurface [identifier] [x] [y]
     string key = args.at(0);
@@ -103,31 +119,37 @@ void CopySurface(Whisperer* game, vector<string> args)
     int y = coord(args.at(2));
 
     game->graphics()->copySurface(surfaces[key], x, y);
+
+    return NULL;
 }
 
 // IMAGES
 
 // Loads an image and stores it by the given identifier
-void LoadImage(Whisperer* game, vector<string> args)
+State* LoadImage(Whisperer* game, vector<string> args)
 {
     // Syntax: LoadImage [identifier] [filename]
     string key = args.at(0);
     string path = args.at(1);
 
     game->imageCache()->loadTexture(key, path.c_str());
+
+    return NULL;
 }
 
 // Frees an image from memory
-void FreeImage(Whisperer* game, vector<string> args)
+State* FreeImage(Whisperer* game, vector<string> args)
 {
     // Syntax: FreeImage [identifier]
     string key = args.at(0);
 
     game->imageCache()->freeTexture(key);
+
+    return NULL;
 }
 
 // Adds an image to the background of the scene
-void AddBackgroundImage(Whisperer* game, vector<string> args)
+State* AddBackgroundImage(Whisperer* game, vector<string> args)
 {
     // Syntax: AddBackgroundImage [identifier] [x] [y]
     string key = args.at(0);
@@ -135,10 +157,12 @@ void AddBackgroundImage(Whisperer* game, vector<string> args)
     int y = coord(args.at(2));
 
     game->graphics()->addBackgroundImage(key, key, x, y);
+
+    return NULL;
 }
 
 // Adds an image to the foreground of the scene
-void AddForegroundImage(Whisperer* game, vector<string> args)
+State* AddForegroundImage(Whisperer* game, vector<string> args)
 {
     // Syntax: AddForegroundImage [identifier] [x] [y]
     string key = args.at(0);
@@ -146,10 +170,14 @@ void AddForegroundImage(Whisperer* game, vector<string> args)
     int y = coord(args.at(2));
 
     game->graphics()->addForegroundImage(key, key, x, y);
+
+    return NULL;
 }
 
 // Clears all images from the scene
-void ClearImages(Whisperer* game, vector<string> args)
+State* ClearImages(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearImages();
+
+    return NULL;
 }

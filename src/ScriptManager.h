@@ -12,10 +12,12 @@ using std::string;
 #include <map>
 using std::map;
 
+#include "State.h"
+
 class Whisperer;
 
 
-typedef void (*CommandFunction)(Whisperer*, vector<string>);
+typedef State* (*CommandFunction)(Whisperer*, vector<string>);
 
 class ScriptManager
 {
@@ -32,7 +34,9 @@ class ScriptManager
         void RunScript(string file);
 
         // Processes the next script command in the execution buffer.
-        void ProcessNextCommand(Whisperer* game);
+        // Returns a reference to a state, or NULL. This represents the State
+        // that was evoked by the command's execution.
+        State* ProcessNextCommand(Whisperer* game);
 
         // Whether there are any commands remaining in the execution buffer
         bool HasNextCommand() { return !commands.empty(); }

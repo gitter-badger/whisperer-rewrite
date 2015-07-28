@@ -58,5 +58,6 @@ bool LanguageMenu::IsFinished()
 
 State* LanguageMenu::NextState(Whisperer* whisperer)
 {
+    mTextManager->LoadFile("test.json");
     return new MainMenu(mTextManager);
 }

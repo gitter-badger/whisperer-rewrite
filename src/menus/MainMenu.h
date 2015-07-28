@@ -5,6 +5,10 @@
 #include "Graphics.h"
 #include "Input.h"
 
+#include "../TextManager.h"
+
+#include "Button.h"
+
 class Whisperer;
 
 class MainMenu : public State

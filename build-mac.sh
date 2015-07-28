@@ -49,9 +49,8 @@ make
 #cp -R CMakeFiles $CMAKE_DIR
 #rm -r CMakeFiles
 
-# Move the executable into the binary directory
+# Copy the executable into the binary directory
 mv $EXECUTABLE $BIN_DIR
-mv libsource.a $BIN_DIR
 
 # Copy the game assets into the binary directory
 # if they aren't already there

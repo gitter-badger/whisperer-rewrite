@@ -1,6 +1,6 @@
 #include "MainMenu.h"
 
-#include "ChapterState.h"
+#include "../ChapterState.h"
 
 MainMenu::MainMenu(TextManager* textManager)
     : mTextManager(textManager), finished(false),

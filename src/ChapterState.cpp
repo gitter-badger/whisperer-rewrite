@@ -3,13 +3,23 @@
 #include <sstream>
 using std::stringstream;
 
+#include "Whisperer.h"
+
 #include "commands/graphics.h"
 
+
 ChapterState::ChapterState(Whisperer* whisperer, const unsigned int chapter)
-    : mWhisperer(whisperer), currentState(NULL)
+    : mWhisperer(whisperer), currentState(NULL), mChapter(chapter)
 {
     // Register all script commands
     RegisterCommands();
+
+    // Select the text file for the given chapter
+    stringstream textfile;
+    textfile << "chapter" << chapter << ".json";
+    
+    // Load this chapter's text
+    mWhisperer->textManager()->LoadFile(textfile.str());
 
     // Select the script file for the given chapter
     stringstream scriptname;
@@ -69,6 +79,17 @@ bool ChapterState::IsFinished()
 
 State* ChapterState::NextState(Whisperer* whisperer)
 {
+    // Unless this is the final chapter, start the next one
+    if (mChapter != Whisperer::LAST_CHAPTER)
+    {
+        return new ChapterState(whisperer, mChapter + 1);
+    }
+    // Otherwise we're done here
+    else
+    {
+        // TODO go to the credits or the main menu
+        return NULL;
+    }
 }
 
 void ChapterState::RegisterCommands()

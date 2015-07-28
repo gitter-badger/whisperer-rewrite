@@ -35,4 +35,5 @@ class ChapterState : public State
         Whisperer* mWhisperer;
         State* currentState;
         ScriptManager scriptManager;
+        unsigned int mChapter;
 };

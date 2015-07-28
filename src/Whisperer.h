@@ -25,6 +25,8 @@ class Whisperer : public Game
         {
         }
 
+        static const unsigned short LAST_CHAPTER;
+
         TextManager* textManager() { return &mTextManager; }
     protected:
         // Virtual methods

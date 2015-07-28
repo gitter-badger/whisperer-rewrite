@@ -52,7 +52,7 @@ void ScriptManager::RunScript(string file)
     ifile.close();
 }
 
-void ScriptManager::ProcessNextCommand(Whisperer* game)
+State* ScriptManager::ProcessNextCommand(Whisperer* game)
 {
     // Commands follow the following syntax:
     // [Command] [Arg1] [Arg2] ... [ArgN]
@@ -85,7 +85,7 @@ void ScriptManager::ProcessNextCommand(Whisperer* game)
     {
         std::cout << "Error: tried to call an invalid script command." << std::endl;
         // TODO handle the error gracefully
-        return;
+        return NULL;
     }
 
     // Actually call the function and return the State is creates

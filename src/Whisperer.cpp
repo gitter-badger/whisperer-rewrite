@@ -10,27 +10,8 @@
 using namespace ascii;
 
 
-//void Whisperer::RegisterScriptCommands()
-//{
-    //// graphics.h
-    //scriptManager.RegisterCommand("Clear", &Clear);
-    //scriptManager.RegisterCommand("ClearTransparent", &ClearTransparent);
-    //scriptManager.RegisterCommand("ClearOpaque", &ClearOpaque);
+const unsigned short Whisperer::LAST_CHAPTER = 8;
 
-    //scriptManager.RegisterCommand("UpdateScreen", &UpdateScreen);
-
-    //scriptManager.RegisterCommand("LoadSurface", &LoadSurface);
-    //scriptManager.RegisterCommand("FreeSurface", &FreeSurface);
-    //scriptManager.RegisterCommand("PrintSurfaceContents", &PrintSurfaceContents);
-    //scriptManager.RegisterCommand("BlitSurface", &BlitSurface);
-    //scriptManager.RegisterCommand("CopySurface", &CopySurface);
-
-    //scriptManager.RegisterCommand("LoadImage", &LoadImage);
-    //scriptManager.RegisterCommand("FreeImage", &FreeImage);
-    //scriptManager.RegisterCommand("AddBackgroundImage", &AddBackgroundImage);
-    //scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
-    //scriptManager.RegisterCommand("ClearImages", &ClearImages);
-//}
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {

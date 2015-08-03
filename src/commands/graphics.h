@@ -7,9 +7,10 @@ using std::string;
 #include <map>
 using std::map;
 
-#include "../Whisperer.h"
 #include "Surface.h"
 using ascii::Surface;
+
+#include "../Whisperer.h"
 
 class State;
 
@@ -30,18 +31,21 @@ int coord(string arg)
 
 // CLEAR FUNCTIONS
 
+// Clears every cell of the game's graphics buffer (a surface).
 State* Clear(Whisperer* game, vector<string> args)
 {
     game->graphics()->clear();
     return NULL;
 }
 
+// Sets every cell of the game's graphics buffer to transparent.
 State* ClearTransparent(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearTransparent();
     return NULL;
 }
 
+// Sets every cell of the game's graphics buffer to opaque.
 State* ClearOpaque(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearOpaque();
@@ -50,6 +54,7 @@ State* ClearOpaque(Whisperer* game, vector<string> args)
 
 // UPDATE
 
+// Renders the current scene represented by the game's graphics buffer.
 State* UpdateScreen(Whisperer* game, vector<string> args)
 {
     game->graphics()->update();

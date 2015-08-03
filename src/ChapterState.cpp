@@ -6,6 +6,7 @@ using std::stringstream;
 #include "Whisperer.h"
 
 #include "commands/graphics.h"
+#include "commands/delay.h"
 
 
 ChapterState::ChapterState(Whisperer* whisperer, const unsigned int chapter)
@@ -45,7 +46,7 @@ void ChapterState::Update(int deltaMS)
         }
     }
     // If there is no current state, continue executing the script
-    if (currentState == NULL)
+    if (currentState == NULL && scriptManager.HasNextCommand())
     {
         // If the next script command evokes a new State, save it
         currentState = scriptManager.ProcessNextCommand(mWhisperer);
@@ -112,4 +113,7 @@ void ChapterState::RegisterCommands()
     scriptManager.RegisterCommand("AddBackgroundImage", &AddBackgroundImage);
     scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
     scriptManager.RegisterCommand("ClearImages", &ClearImages);
+
+    // delay.h
+    scriptManager.RegisterCommand("AwaitInput", &AwaitInput);
 }

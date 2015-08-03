@@ -1,6 +1,8 @@
 #include "ScriptManager.h"
 
 #include <iostream>
+using std::cout;
+using std::endl;
 
 #include <fstream>
 using std::ifstream;
@@ -83,7 +85,9 @@ State* ScriptManager::ProcessNextCommand(Whisperer* game)
     
     if (function == NULL)
     {
-        std::cout << "Error: tried to call an invalid script command." << std::endl;
+        cout << "Error: tried to call invalid script command: "
+            << commandName << endl;
+
         // TODO handle the error gracefully
         return NULL;
     }

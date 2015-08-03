@@ -1,7 +1,7 @@
 #include "InputDelay.h"
 
 
-InputDelay::InputDelay(vector<SDL_Keycode keys, vector<MouseButton> mouseButtons)
+InputDelay::InputDelay(vector<SDL_Keycode> keys, vector<MouseButton> mouseButtons)
     : mKeys(keys), mMouseButtons(mouseButtons), mFinished(false)
 {
 }
@@ -32,7 +32,7 @@ void InputDelay::HandleInput(Input& input)
         // Accept any mouse button if no specific buttons are desired
         for (int mb = MB_BEGIN; mb <= MB_END; ++mb)
         {
-            if (input.mouseButtonClicked(mb)) mFinished = true;
+            if (input.mouseButtonClicked((MouseButton) mb)) mFinished = true;
         }
     }
     else

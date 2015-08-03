@@ -29,7 +29,7 @@ int coord(string arg)
     return atoi(arg.c_str());
 }
 
-// CLEAR FUNCTIONS
+// CLEAR BUFFER SURFACE
 
 // Clears every cell of the game's graphics buffer (a surface).
 State* Clear(Whisperer* game, vector<string> args)
@@ -183,6 +183,15 @@ State* AddForegroundImage(Whisperer* game, vector<string> args)
 State* ClearImages(Whisperer* game, vector<string> args)
 {
     game->graphics()->clearImages();
+    return NULL;
+}
 
+// MISC.
+
+// Clears glyphs stored in the game's Graphics instance for different
+// collections of adjacent ASCII symbols
+State* ClearGlyphs(Whisperer* game, vector<string> args)
+{
+    game->graphics()->clearGlyphs();
     return NULL;
 }

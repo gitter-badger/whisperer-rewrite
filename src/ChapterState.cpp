@@ -114,6 +114,8 @@ void ChapterState::RegisterCommands()
     scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
     scriptManager.RegisterCommand("ClearImages", &ClearImages);
 
+    scriptManager.RegisterCommand("ClearGlyphs", &ClearGlyphs);
+
     // delay.h
     scriptManager.RegisterCommand("AwaitInput", &AwaitInput);
 }

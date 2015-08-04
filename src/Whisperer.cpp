@@ -10,8 +10,10 @@
 using namespace ascii;
 
 
+// Static constants
 const unsigned short Whisperer::LAST_CHAPTER = 8;
-
+const unsigned int WINDOW_WIDTH = 100;
+const unsigned int WINDOW_HEIGHT = 40;
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {

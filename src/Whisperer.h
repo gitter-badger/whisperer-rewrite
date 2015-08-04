@@ -13,19 +13,19 @@ namespace
 {
     const char* kWindowTitle = "The Whisperer in Darkness";
     const char* kFontPath = "content/terminal.fon";
-    const int kWindowWidth = 100;
-    const int kWindowHeight = 40;
 }
 
 class Whisperer : public Game
 {
     public:
         Whisperer()
-            : Game(kWindowTitle, kFontPath, kWindowWidth, kWindowHeight)
+            : Game(kWindowTitle, kFontPath, WINDOW_WIDTH, WINDOW_HEIGHT)
         {
         }
 
         static const unsigned short LAST_CHAPTER;
+        static const unsigned int WINDOW_WIDTH;
+        static const unsigned int WINDOW_HEIGHT;
 
         TextManager* textManager() { return &mTextManager; }
     protected:

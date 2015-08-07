@@ -12,22 +12,14 @@ using ascii::Surface;
 
 #include "../Whisperer.h"
 
+#include "util.h"
+
 class State;
 
 
 // Global fields
-namespace
-{
-    map<string, Surface*> surfaces;
-}
 
-// HELPER FUNCTIONS
-
-// parses a coordinate argument
-int coord(string arg)
-{
-    return atoi(arg.c_str());
-}
+map<string, Surface*> surfaces;
 
 // CLEAR BUFFER SURFACE
 

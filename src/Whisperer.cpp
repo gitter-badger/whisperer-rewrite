@@ -12,8 +12,20 @@ using namespace ascii;
 
 // Static constants
 const unsigned short Whisperer::LAST_CHAPTER = 8;
-const unsigned int WINDOW_WIDTH = 100;
-const unsigned int WINDOW_HEIGHT = 40;
+const unsigned int Whisperer::WINDOW_WIDTH = 100;
+const unsigned int Whisperer::WINDOW_HEIGHT = 40;
+
+void Whisperer::ShowScene(Scene* scene)
+{
+    scene->Show(*graphics());
+    mCurrentScene = scene;
+}
+
+void Whisperer::HideScene()
+{
+    mCurrentScene->Hide(*graphics());
+    mCurrentScene = NULL;
+}
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
 {
@@ -75,8 +87,19 @@ void Whisperer::HandleInput(Input& input)
 
 void Whisperer::Draw(Graphics& graphics)
 {
+    // Draw the current menu
     if (mCurrentState != NULL)
     {
         mCurrentState->Draw(graphics);
+    }
+
+    // Draw the current scene automatically if it's animating
+    if (mCurrentScene != NULL)
+    {
+        if (mCurrentScene->DrawEveryFrame())
+        {
+            mCurrentScene->Draw(graphics);
+            graphics.update();
+        }
     }
 }

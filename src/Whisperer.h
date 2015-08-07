@@ -6,6 +6,7 @@
 #include "ScriptManager.h"
 
 #include "State.h"
+#include "Scene.h"
 
 using namespace ascii;
 
@@ -19,7 +20,8 @@ class Whisperer : public Game
 {
     public:
         Whisperer()
-            : Game(kWindowTitle, kFontPath, WINDOW_WIDTH, WINDOW_HEIGHT)
+            : Game(kWindowTitle, kFontPath, WINDOW_WIDTH, WINDOW_HEIGHT),
+            mCurrentState(NULL), mCurrentScene(NULL)
         {
         }
 
@@ -27,7 +29,11 @@ class Whisperer : public Game
         static const unsigned int WINDOW_WIDTH;
         static const unsigned int WINDOW_HEIGHT;
 
-        TextManager* textManager() { return &mTextManager; }
+        TextManager* TextManager() { return &mTextManager; }
+        Scene* CurrentScene() { return mCurrentScene; }
+
+        void ShowScene(Scene* scene);
+        void HideScene();
     protected:
         // Virtual methods
         void LoadContent(ImageCache* imageCache, SoundManager* soundManager);
@@ -40,4 +46,5 @@ class Whisperer : public Game
         TextManager mTextManager;
 
         State* mCurrentState;
+        Scene* mCurrentScene;
 };

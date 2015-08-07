@@ -19,23 +19,31 @@ using namespace ascii;
 class Scene
 {
     public:
-        Scene() : mBackground(NULL) { }
+        Scene();
 
-        void SetBackgroundSurface(Surface* background) { mBackground = background; }
+        // Blit a surface to the background of this scene
+        void BlitBackgroundSurface(Surface* background, int x, int y);
 
+        // Copy a surface to the background of this scen
+        void CopyBackgroundSurface(Surface* background, int x, int y);
+
+        // Add an image to the background of this scene
         void AddBackgroundImage(string key, int x, int y);
-        void AddBackgroundImage(string key);
 
+        // Add an image to the foreground of this scene
         void AddForegroundImage(string key, int x, int y);
-        void AddForegroundImage(string key);
 
+        // Update this scene's tweens and dialogs
         void Update(int deltaMS);
 
         void Show(Graphics& graphics);
         void Draw(Graphics& graphics);
         void Hide(Graphics& graphics);
+
+        // Check whether this scene's Draw() must be called every frame
+        bool DrawEveryFrame();
     private:
-        Surface* mBackgroundSurface;
+        Surface mBackgroundSurface;
         map<string, Point> mBackgroundImages;
         map<string, Point> mForegroundImages;
 };

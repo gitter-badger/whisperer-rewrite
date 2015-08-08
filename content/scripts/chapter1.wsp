@@ -1,11 +1,33 @@
+LoadSurface desk content/desk.srf
 LoadSurface journal content/journal.srf
+LoadSurface journal-open content/journal-open.srf 
 
 CreateScene test
 SetScene test
+BlitSurface desk 0 0
 
 ShowScene
 UpdateScreen
 
 AwaitInput
 
-TweenSurface journal 0 0 60 0 10000
+TweenSurface journal 18 40 18 0 800
+
+AwaitInput
+
+ClearTweens
+BlitSurface journal-open 18 0
+UpdateScreen
+
+AwaitInput
+
+BlitSurface desk 0 0
+BlitSurface journal 18 0
+UpdateScreen
+
+AwaitInput
+
+BlitSurface desk 0 0
+TweenSurface journal 18 0 18 40 800
+
+AwaitInput

@@ -44,6 +44,11 @@ void Scene::TweenSurface(Surface* surface, int sourceX, int sourceY,
                 Point(destX, destY), totalMS));
 }
 
+void Scene::ClearTweens()
+{
+    mTweens.clear();
+}
+
 void Scene::Update(int deltaMS)
 {
     // Update every tween
@@ -105,25 +110,7 @@ void Scene::Hide(Graphics& graphics)
     }
 }
 
-bool Scene::IsFinished()
-{
-    return this->allTweensFinished(); // && TODO dialogs finished as well
-}
-
 bool Scene::DrawEveryFrame()
 {
     return !mTweens.empty(); // || TODO dialogs present
-}
-
-bool Scene::allTweensFinished()
-{
-    for (auto it = mTweens.begin(); it != mTweens.end(); ++it)
-    {
-        if (!it->IsFinished())
-        {
-            return false;
-        }
-    }
-
-    return true;
 }

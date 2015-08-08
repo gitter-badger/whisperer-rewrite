@@ -2,20 +2,10 @@ LoadSurface journal content/journal.srf
 
 CreateScene test
 SetScene test
-BlitSurface journal 0 0
-
-CreateScene test2
-SetScene test2
-BlitSurface journal 4 0
 
 ShowScene
 UpdateScreen
 
 AwaitInput
 
-HideScene
-SetScene test
-ShowScene
-UpdateScreen
-
-AwaitInput
+TweenSurface journal 0 0 60 0 10000

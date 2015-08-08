@@ -51,6 +51,12 @@ void Whisperer::Update(int deltaMS)
         // If there is no current menu, quit the game.
         Quit();
     }
+
+    // Update the current scene if there is one shown
+    if (mCurrentScene != NULL && mCurrentScene->IsShown())
+    {
+        mCurrentScene->Update(deltaMS);
+    }
 }
 
 void Whisperer::HandleInput(Input& input)

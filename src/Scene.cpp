@@ -1,9 +1,13 @@
 #include "Scene.h"
 
+#include "Point.h"
+using namespace ascii;
+
 #include "Whisperer.h"
 
 Scene::Scene()
-    : mBackgroundSurface(Whisperer::WINDOW_WIDTH, Whisperer::WINDOW_HEIGHT)
+    : mBackgroundSurface(Whisperer::WINDOW_WIDTH, Whisperer::WINDOW_HEIGHT),
+    mShown(false)
 {
 }
 
@@ -33,14 +37,28 @@ void Scene::ClearImages()
     mForegroundImages.clear();
 }
 
+void Scene::TweenSurface(Surface* surface, int sourceX, int sourceY,
+        int destX, int destY, unsigned int totalMS)
+{
+    mTweens.push_back(Tween(surface, Point(sourceX, sourceY),
+                Point(destX, destY), totalMS));
+}
+
 void Scene::Update(int deltaMS)
 {
-    // TODO update surface tweens
+    // Update every tween
+    for (auto it = mTweens.begin(); it != mTweens.end(); ++it)
+    {
+        it->Update(deltaMS);
+    }
+
     // TODO update dialog boxes
 }
 
 void Scene::Show(Graphics& graphics)
 {
+    mShown = true;
+
     for (auto it = mBackgroundImages.begin(); it != mBackgroundImages.end(); ++it)
     {
         graphics.addBackgroundImage(it->first, it->first,
@@ -58,14 +76,22 @@ void Scene::Draw(Graphics& graphics)
 {
     graphics.clear();
 
+    // First, draw the background
     graphics.blitSurface(&mBackgroundSurface, 0, 0);
 
-    // TODO draw surface tweens
+    // Draw every tweening surface at its current position
+    for (auto it = mTweens.begin(); it != mTweens.end(); ++it)
+    {
+        it->Draw(graphics);
+    }
+
     // TODO draw dialog boxes
 }
 
 void Scene::Hide(Graphics& graphics)
 {
+    mShown = false;
+
     graphics.clear();
 
     for (auto it = mBackgroundImages.begin(); it != mBackgroundImages.end(); ++it)
@@ -79,7 +105,25 @@ void Scene::Hide(Graphics& graphics)
     }
 }
 
+bool Scene::IsFinished()
+{
+    return this->allTweensFinished(); // && TODO dialogs finished as well
+}
+
 bool Scene::DrawEveryFrame()
 {
-    return false; // TODO if there are tweens/dialogs return true
+    return !mTweens.empty(); // || TODO dialogs present
+}
+
+bool Scene::allTweensFinished()
+{
+    for (auto it = mTweens.begin(); it != mTweens.end(); ++it)
+    {
+        if (!it->IsFinished())
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

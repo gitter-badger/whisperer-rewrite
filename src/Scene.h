@@ -10,13 +10,19 @@ using std::map;
 #include "Surface.h"
 #include "Point.h"
 #include "Graphics.h"
+#include "Input.h"
 
 using namespace ascii;
+
+#include "State.h"
+#include "Tween.h"
+
+class Whisperer;
 
 
 // This class represents a visual scene in the game containing ASCII art,
 // images, and also handling surface tweens and dialog boxes.
-class Scene
+class Scene : public State
 {
     public:
         Scene();
@@ -36,17 +42,34 @@ class Scene
         // Clear all images from this scene
         void ClearImages();
 
+        // Tween a surface between the given points
+        void TweenSurface(Surface* surface, int sourceX, int sourceY,
+                int destX, int destY, unsigned int totalMS);
+
         // Update this scene's tweens and dialogs
         void Update(int deltaMS);
+
+        void HandleInput(Input& input) { }
 
         void Show(Graphics& graphics);
         void Draw(Graphics& graphics);
         void Hide(Graphics& graphics);
 
+        bool IsShown() { return mShown; }
+
+        bool IsFinished();
+        State* NextState(Whisperer* whisperer) { return NULL; }
+
         // Check whether this scene's Draw() must be called every frame
         bool DrawEveryFrame();
     private:
+        bool allTweensFinished();
+
         Surface mBackgroundSurface;
         map<string, Point> mBackgroundImages;
         map<string, Point> mForegroundImages;
+
+        vector<Tween> mTweens;
+
+        bool mShown;
 };

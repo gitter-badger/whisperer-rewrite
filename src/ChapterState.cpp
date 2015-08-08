@@ -120,6 +120,7 @@ void ChapterState::RegisterCommands()
     scriptManager.RegisterCommand("ClearScene", &ClearScene);
     scriptManager.RegisterCommand("ShowScene", &ShowScene);
     scriptManager.RegisterCommand("HideScene", &HideScene);
+    scriptManager.RegisterCommand("TweenSurface", &TweenSurface);
 
     scriptManager.RegisterCommand("ClearGlyphs", &ClearGlyphs);
 

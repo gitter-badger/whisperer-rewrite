@@ -12,6 +12,8 @@ using ascii::Surface;
 
 #include "../Whisperer.h"
 
+#include "../states/TimeDelay.h"
+
 #include "util.h"
 
 class State;
@@ -285,6 +287,24 @@ State* HideScene(Whisperer* game, vector<string> args)
 {
     game->HideScene();
     return NULL;
+}
+
+// Tween a surface between two points
+State* TweenSurface(Whisperer* game, vector<string> args)
+{
+    // Syntax: TweenSurface [key] [sourcex] [sourcey] [destx] [desty] [totalms]
+    string key = args.at(0);
+    int sourceX = coord(args.at(1));
+    int sourceY = coord(args.at(2));
+    int destX = coord(args.at(3));
+    int destY = coord(args.at(4));
+    int totalMS = coord(args.at(5));
+
+    game->CurrentScene()->TweenSurface(surfaces[key], sourceX, sourceY,
+            destX, destY, totalMS);
+
+    // Delay the chapter until the tween is over
+    return new TimeDelay(totalMS);
 }
 
 // MISC.

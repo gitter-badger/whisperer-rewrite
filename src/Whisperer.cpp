@@ -15,16 +15,14 @@ const unsigned short Whisperer::LAST_CHAPTER = 8;
 const unsigned int Whisperer::WINDOW_WIDTH = 100;
 const unsigned int Whisperer::WINDOW_HEIGHT = 40;
 
-void Whisperer::ShowScene(Scene* scene)
+void Whisperer::ShowScene()
 {
-    scene->Show(*graphics());
-    mCurrentScene = scene;
+    mCurrentScene->Show(*graphics());
 }
 
 void Whisperer::HideScene()
 {
     mCurrentScene->Hide(*graphics());
-    mCurrentScene = NULL;
 }
 
 void Whisperer::LoadContent(ImageCache* imageCache, SoundManager* soundManager)
@@ -102,4 +100,14 @@ void Whisperer::Draw(Graphics& graphics)
             graphics.update();
         }
     }
+}
+
+void Whisperer::UpdateScreen()
+{
+    if (mCurrentScene != NULL)
+    {
+        mCurrentScene->Draw(*graphics());
+    }
+
+    graphics()->update();
 }

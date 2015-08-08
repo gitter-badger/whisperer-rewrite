@@ -27,6 +27,12 @@ void Scene::AddForegroundImage(string key, int x, int y)
     mForegroundImages[key] = Point(x, y);
 }
 
+void Scene::ClearImages()
+{
+    mBackgroundImages.clear();
+    mForegroundImages.clear();
+}
+
 void Scene::Update(int deltaMS)
 {
     // TODO update surface tweens

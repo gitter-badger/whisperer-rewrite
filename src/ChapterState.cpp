@@ -114,6 +114,13 @@ void ChapterState::RegisterCommands()
     scriptManager.RegisterCommand("AddForegroundImage", &AddForegroundImage);
     scriptManager.RegisterCommand("ClearImages", &ClearImages);
 
+    scriptManager.RegisterCommand("CreateScene", &CreateScene);
+    scriptManager.RegisterCommand("DeleteScene", &DeleteScene);
+    scriptManager.RegisterCommand("SetScene", &SetScene);
+    scriptManager.RegisterCommand("ClearScene", &ClearScene);
+    scriptManager.RegisterCommand("ShowScene", &ShowScene);
+    scriptManager.RegisterCommand("HideScene", &HideScene);
+
     scriptManager.RegisterCommand("ClearGlyphs", &ClearGlyphs);
 
     // delay.h

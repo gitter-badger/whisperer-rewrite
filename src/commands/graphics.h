@@ -19,7 +19,11 @@ class State;
 
 // Global fields
 
-map<string, Surface*> surfaces;
+namespace
+{
+    map<string, Surface*> surfaces;
+    map<string, Scene*> scenes;
+}
 
 // CLEAR BUFFER SURFACE
 
@@ -46,10 +50,11 @@ State* ClearOpaque(Whisperer* game, vector<string> args)
 
 // UPDATE
 
-// Renders the current scene represented by the game's graphics buffer.
+// Renders the current scene represented by the game's graphics buffer
+// OR the currents scene
 State* UpdateScreen(Whisperer* game, vector<string> args)
 {
-    game->graphics()->update();
+    game->UpdateScreen();
     return NULL;
 }
 
@@ -94,7 +99,8 @@ State* PrintSurfaceContents(Whisperer* game, vector<string> args)
     return NULL;
 }
 
-// Blits a loaded ASCIILib surface to the screen (ignoring transparent parts)
+// Blits a loaded ASCIILib surface to the screen OR the currently active scene
+// (ignoring transparent parts)
 State* BlitSurface(Whisperer* game, vector<string> args)
 {
     // Syntax: BlitSurface [identifier] [x] [y]
@@ -102,12 +108,22 @@ State* BlitSurface(Whisperer* game, vector<string> args)
     int x = coord(args.at(1));
     int y = coord(args.at(2));
 
-    game->graphics()->blitSurface(surfaces[key], x, y);
+    // Blit directly to the graphics buffer if there is no active scene
+    if (game->CurrentScene() == NULL)
+    {
+        game->graphics()->blitSurface(surfaces[key], x, y);
+    }
+    // Otherwise, blit to the scene's background surface
+    else
+    {
+        game->CurrentScene()->BlitBackgroundSurface(surfaces[key], x, y);
+    }
 
     return NULL;
 }
 
-// Copies a loaded ASCIILib surface to the screen (preserving transparency)
+// Copies a loaded ASCIILib surface to the screen OR the currently active scene
+// (preserving transparency)
 State* CopySurface(Whisperer* game, vector<string> args)
 {
     // Syntax: CopySurface [identifier] [x] [y]
@@ -115,7 +131,16 @@ State* CopySurface(Whisperer* game, vector<string> args)
     int x = coord(args.at(1));
     int y = coord(args.at(2));
 
-    game->graphics()->copySurface(surfaces[key], x, y);
+    // Copy directly to the graphics buffer if there is no active scene
+    if (game->CurrentScene() == NULL)
+    {
+        game->graphics()->copySurface(surfaces[key], x, y);
+    }
+    // Otherwise, copy directly to the scene's background surface
+    else
+    {
+        game->CurrentScene()->CopyBackgroundSurface(surfaces[key], x, y);
+    }
 
     return NULL;
 }
@@ -145,7 +170,7 @@ State* FreeImage(Whisperer* game, vector<string> args)
     return NULL;
 }
 
-// Adds an image to the background of the scene
+// Adds an image to the background of the screen OR the currently active scene
 State* AddBackgroundImage(Whisperer* game, vector<string> args)
 {
     // Syntax: AddBackgroundImage [identifier] [x] [y]
@@ -153,12 +178,22 @@ State* AddBackgroundImage(Whisperer* game, vector<string> args)
     int x = coord(args.at(1));
     int y = coord(args.at(2));
 
-    game->graphics()->addBackgroundImage(key, key, x, y);
+    // Add the image directly to the graphics instance if there is no
+    // currently active scene
+    if (game->CurrentScene() == NULL)
+    {
+        game->graphics()->addBackgroundImage(key, key, x, y);
+    }
+    // Otherwise, add the image to the scene instead
+    else
+    {
+        game->CurrentScene()->AddBackgroundImage(key, x, y);
+    }
 
     return NULL;
 }
 
-// Adds an image to the foreground of the scene
+// Adds an image to the foreground of the screen OR the currently active scene
 State* AddForegroundImage(Whisperer* game, vector<string> args)
 {
     // Syntax: AddForegroundImage [identifier] [x] [y]
@@ -166,15 +201,89 @@ State* AddForegroundImage(Whisperer* game, vector<string> args)
     int x = coord(args.at(1));
     int y = coord(args.at(2));
 
-    game->graphics()->addForegroundImage(key, key, x, y);
+    // Add the image directly to the graphics instance if there is no
+    // currently active scene
+    if (game->CurrentScene() == NULL)
+    {
+        game->graphics()->addForegroundImage(key, key, x, y);
+    }
+    // Otherwise, add the image to the scene instead
+    else
+    {
+        game->CurrentScene()->AddForegroundImage(key, x, y);
+    }
 
     return NULL;
 }
 
-// Clears all images from the scene
+// Clears all images from the screen OR the currently active scene
 State* ClearImages(Whisperer* game, vector<string> args)
 {
-    game->graphics()->clearImages();
+    // If there is no active scene, clear the graphics instance
+    if (game->CurrentScene() == NULL)
+    {
+        game->graphics()->clearImages();
+    }
+    // Otherwise, clear the scene
+    else
+    {
+        game->CurrentScene()->ClearImages();
+    }
+
+    return NULL;
+}
+
+// SCENES
+
+// Create a new empty scene
+State* CreateScene(Whisperer* game, vector<string> args)
+{
+    // Syntax: CreateScene [name]
+    string name = args.at(0);
+    scenes[name] = new Scene();
+
+    return NULL;
+}
+
+// Delete a scene
+State* DeleteScene(Whisperer* game, vector<string> args)
+{
+    // Syntax: DeleteScene [name]
+    string name = args.at(0);
+    delete scenes[name];
+    scenes.erase(name);
+
+    return NULL;
+}
+
+// Set the current scene
+State* SetScene(Whisperer* game, vector<string> args)
+{
+    // Syntax: SetScene [name]
+    string name = args.at(0);
+    game->SetScene(scenes[name]);
+
+    return NULL;
+}
+
+// Set the currents scene to NULL
+State* ClearScene(Whisperer* game, vector<string> args)
+{
+    game->SetScene(NULL);
+    return NULL;
+}
+
+// Show the current scene
+State* ShowScene(Whisperer* game, vector<string> args)
+{
+    game->ShowScene();
+    return NULL;
+}
+
+// Hide the current scene
+State* HideScene(Whisperer* game, vector<string> args)
+{
+    game->HideScene();
     return NULL;
 }
 

@@ -29,11 +29,14 @@ class Whisperer : public Game
         static const unsigned int WINDOW_WIDTH;
         static const unsigned int WINDOW_HEIGHT;
 
-        TextManager* TextManager() { return &mTextManager; }
+        TextManager* textManager() { return &mTextManager; }
         Scene* CurrentScene() { return mCurrentScene; }
 
-        void ShowScene(Scene* scene);
+        void SetScene(Scene* scene) { mCurrentScene = scene; }
+        void ShowScene();
         void HideScene();
+
+        void UpdateScreen();
     protected:
         // Virtual methods
         void LoadContent(ImageCache* imageCache, SoundManager* soundManager);

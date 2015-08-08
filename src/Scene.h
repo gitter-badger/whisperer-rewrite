@@ -33,6 +33,9 @@ class Scene
         // Add an image to the foreground of this scene
         void AddForegroundImage(string key, int x, int y);
 
+        // Clear all images from this scene
+        void ClearImages();
+
         // Update this scene's tweens and dialogs
         void Update(int deltaMS);
 

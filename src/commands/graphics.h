@@ -289,7 +289,7 @@ State* HideScene(Whisperer* game, vector<string> args)
     return NULL;
 }
 
-// Tween a surface between two points
+// Tween a surface between two points in the current scene
 State* TweenSurface(Whisperer* game, vector<string> args)
 {
     // Syntax: TweenSurface [key] [sourcex] [sourcey] [destx] [desty] [totalms]
@@ -305,6 +305,13 @@ State* TweenSurface(Whisperer* game, vector<string> args)
 
     // Delay the chapter until the tween is over
     return new TimeDelay(totalMS);
+}
+
+// Clear all surface tweens from the current scene
+State* ClearTweens(Whisperer* game, vector<string> args)
+{
+    game->CurrentScene()->ClearTweens();
+    return NULL;
 }
 
 // MISC.

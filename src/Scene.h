@@ -14,7 +14,6 @@ using std::map;
 
 using namespace ascii;
 
-#include "State.h"
 #include "Tween.h"
 
 class Whisperer;
@@ -22,7 +21,7 @@ class Whisperer;
 
 // This class represents a visual scene in the game containing ASCII art,
 // images, and also handling surface tweens and dialog boxes.
-class Scene : public State
+class Scene
 {
     public:
         Scene();
@@ -46,10 +45,11 @@ class Scene : public State
         void TweenSurface(Surface* surface, int sourceX, int sourceY,
                 int destX, int destY, unsigned int totalMS);
 
+        // Clear all tweens from this scene
+        void ClearTweens();
+
         // Update this scene's tweens and dialogs
         void Update(int deltaMS);
-
-        void HandleInput(Input& input) { }
 
         void Show(Graphics& graphics);
         void Draw(Graphics& graphics);
@@ -57,14 +57,9 @@ class Scene : public State
 
         bool IsShown() { return mShown; }
 
-        bool IsFinished();
-        State* NextState(Whisperer* whisperer) { return NULL; }
-
         // Check whether this scene's Draw() must be called every frame
         bool DrawEveryFrame();
     private:
-        bool allTweensFinished();
-
         Surface mBackgroundSurface;
         map<string, Point> mBackgroundImages;
         map<string, Point> mForegroundImages;

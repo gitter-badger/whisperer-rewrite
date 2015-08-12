@@ -15,8 +15,8 @@ Tween::Tween(Surface* surface, Point source, Point dest, unsigned int totalMS)
     const unsigned int sy = abs(dy);
 
     // Calculate the movement that must be taken in each direction every step
-    mStepX = sx == 0 ? 0 : dx / sx;
-    mStepY = sy == 0 ? 0 : dy / sy;
+    mStepX = sx == 0 ? 0 : dx / (int)sx;
+    mStepY = sy == 0 ? 0 : dy / (int)sy;
 
     // The number of steps that must be taken
     const int steps = max(sx, sy);

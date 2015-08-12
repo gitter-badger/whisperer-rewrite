@@ -121,9 +121,11 @@ void ChapterState::RegisterCommands()
     scriptManager.RegisterCommand("ShowScene", &ShowScene);
     scriptManager.RegisterCommand("HideScene", &HideScene);
     scriptManager.RegisterCommand("TweenSurface", &TweenSurface);
+    scriptManager.RegisterCommand("ClearTweens", &ClearTweens);
 
     scriptManager.RegisterCommand("ClearGlyphs", &ClearGlyphs);
 
     // delay.h
+    scriptManager.RegisterCommand("Wait", &Wait);
     scriptManager.RegisterCommand("AwaitInput", &AwaitInput);
 }
